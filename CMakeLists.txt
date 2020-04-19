@@ -99,3 +99,14 @@ if(NOT eigen_POPULATED)
     add_library(eigen INTERFACE)
     target_include_directories(eigen INTERFACE ${eigen_SOURCE_DIR})
 endif()
+
+FetchContent_Declare(
+    opencv2
+    GIT_REPOSITORY https://github.com/opencv/opencv.git
+)
+
+FetchContent_GetProperties(opencv2)
+if(NOT opencv2_POPULATED)
+    FetchContent_Populate(opencv2)
+    add_subdirectory(${opencv2_SOURCE_DIR} ${opencv2_BINARY_DIR})
+endif()

@@ -4,7 +4,7 @@
 
 #include <cinder/app/App.h>
 #include <Eigen/Dense>
-
+#include "opencv2/opencv.hpp"
 namespace myapp {
 
 using cinder::app::KeyEvent;

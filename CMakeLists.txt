@@ -87,3 +87,15 @@ if(NOT catch2_POPULATED)
 endif()
 
 # Add more CMake libraries here ...
+
+FetchContent_Declare(
+     eigen
+     GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+)
+
+FetchContent_GetProperties(eigen)
+if(NOT eigen_POPULATED)
+    FetchContent_Populate(eigen)
+    add_library(eigen INTERFACE)
+    target_include_directories(eigen INTERFACE ${eigen_SOURCE_DIR})
+endif()

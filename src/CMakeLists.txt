@@ -19,9 +19,10 @@ ci_make_library(
         CINDER_PATH  ${CINDER_PATH}
         SOURCES      ${SOURCE_LIST}
         INCLUDES     "${FinalProject_SOURCE_DIR}/include"
-        LIBRARIES
-        BLOCKS
+        LIBRARIES    eigen
+        BLOCKS       Cinder-OpenCV
 )
+
 
 # All users of this library will need at least C++14
 target_compile_features(mylibrary PUBLIC cxx_std_14)

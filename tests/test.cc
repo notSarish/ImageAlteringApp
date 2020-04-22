@@ -4,7 +4,7 @@
 
 #include <catch2/catch.hpp>
 #include <cinder/Rand.h>
-
+#include "opencv2/opencv_modules.hpp"
 #include <mylibrary/example.h>
 
 

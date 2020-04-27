@@ -5,22 +5,26 @@
 #include <cinder/app/App.h>
 #include <Eigen/Dense>
 
+#include "Eigen/Core"
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/core/eigen.hpp"
+#include <iostream>
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "mylibrary/model.h"
+#include "opencv2/photo/photo.hpp"
+using namespace cv;
+
 namespace myapp {
+
 
 using cinder::app::KeyEvent;
 
 
+
 MyApp::MyApp() {
-    using Eigen::MatrixXd;
-
-
-    MatrixXd m(2,2);
-    m(0,0) = 3;
-    m(1,0) = 2.5;
-    m(0,1) = -1;
-    m(1,1) = m(1,0) + m(0,1);
-    
-    std::cout << m << std::endl;
+    mylibrary::SharpenImage("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/blurryimage.jpg");
 
 }
 
@@ -33,3 +37,5 @@ void MyApp::draw() { }
 void MyApp::keyDown(KeyEvent event) { }
 
 }  // namespace myapp
+
+

@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.11...3.16)
+
 if (${CMAKE_VERSION} VERSION_LESS 3.11)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif ()
@@ -17,6 +18,7 @@ project(FinalProject
         DESCRIPTION "CS 126 Final Project"
         LANGUAGES CXX)
 
+find_package(OpenCV REQUIRED) # after project()
 include(ExternalProject)
 # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
 
@@ -100,3 +102,19 @@ if(NOT eigen_POPULATED)
     target_include_directories(eigen INTERFACE ${eigen_SOURCE_DIR})
 endif()
 
+#
+add_library(opencv INTERFACE)
+include_directories(${OpenCV_INCLUDE_DIRS})
+target_link_libraries(opencv INTERFACE ${OpenCV_LIBS})
+
+FetchContent_Declare(
+        armadillo
+        GIT_REPOSITORY https://gitlab.com/conradsnicta/armadillo-code.git
+        GIT_TAG        9.860.x
+)
+
+FetchContent_GetProperties(armadillo)
+if(NOT armadillo_POPULATED)
+    FetchContent_Populate(armadillo)
+    add_subdirectory(${armadillo_SOURCE_DIR} ${armadillo_BINARY_DIR})
+endif()

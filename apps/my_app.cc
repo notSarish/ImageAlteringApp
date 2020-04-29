@@ -40,6 +40,7 @@ namespace myapp {
     void PrintText(const string &text, const Color &color, const cinder::ivec2 &size,
                    const cinder::vec2 &loc);
     float slide = 0.f;
+    string file;
     bool display_image = false;
     MyApp::MyApp() {
 
@@ -64,7 +65,22 @@ namespace myapp {
             ui::ScopedWindow window("Grayscale Image Sharpening", ImGuiWindowFlags_None);
             ui::Text("Select How Sharp You Want Your Image");
             ui::SliderFloat("slide", &slide, 0.f, 2.f);
-            mylibrary::SharpenImage("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/apple.jpeg", slide);
+            string file_name = "";
+            if(ui::InputText("Enter your image", &file_name)) {
+               // if valid file
+               if (file_name.size() != 0) {
+                   file = file_name;
+
+                  // std::cout<< file << std::endl;
+               }
+              //  std::cout<< "new"  << file << std::endl;
+
+            }
+            if (file.size() != 0) {
+                mylibrary::SharpenImage(file, slide);
+            }
+
+
         }
 
 
@@ -87,7 +103,6 @@ namespace myapp {
         const cinder::vec2 center = getWindowCenter();
 
         PrintText("Image Altering App", color, size, {center.x, 100});
-
 
     }
 

@@ -107,14 +107,14 @@ add_library(opencv INTERFACE)
 include_directories(${OpenCV_INCLUDE_DIRS})
 target_link_libraries(opencv INTERFACE ${OpenCV_LIBS})
 
-FetchContent_Declare(
-        armadillo
-        GIT_REPOSITORY https://gitlab.com/conradsnicta/armadillo-code.git
-        GIT_TAG        9.860.x
-)
-
-FetchContent_GetProperties(armadillo)
-if(NOT armadillo_POPULATED)
-    FetchContent_Populate(armadillo)
-    add_subdirectory(${armadillo_SOURCE_DIR} ${armadillo_BINARY_DIR})
-endif()
+#FetchContent_Declare(
+#        armadillo
+#        GIT_REPOSITORY https://gitlab.com/conradsnicta/armadillo-code.git
+#        GIT_TAG        9.860.x
+#)
+#
+#FetchContent_GetProperties(armadillo)
+#if(NOT armadillo_POPULATED)
+#    FetchContent_Populate(armadillo)
+#    add_subdirectory(${armadillo_SOURCE_DIR} ${armadillo_BINARY_DIR})
+#endif()

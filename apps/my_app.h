@@ -14,7 +14,12 @@ class MyApp : public cinder::app::App {
   void setup() override;
   void update() override;
   void draw() override;
+  void DrawMenu();
   void keyDown(cinder::app::KeyEvent) override;
+
+ private:
+  bool menu_screen_ = true;
+
 };
 
 }  // namespace myapp

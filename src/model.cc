@@ -8,7 +8,7 @@
 
 
 namespace mylibrary {
-    void SharpenImage(const std::string &kFileName) {
+    void SharpenImage(const std::string &kFileName, const double cons) {
         Mat image_cv = imread(kFileName, IMREAD_GRAYSCALE);
         Mat original = imread(kFileName, IMREAD_GRAYSCALE);
         DenoiseImage(image_cv);
@@ -18,7 +18,9 @@ namespace mylibrary {
         Mat dst;
         convertScaleAbs(laplacian, dst);
        // imshow("Laplacian", dst);
-        imshow("Sharpen", original - 1*dst);
+        Mat show = original - cons*dst;
+      //  fastNlMeansDenoising(show, show, 3, 7, 21);
+        imshow("Sharpen", show);
     }
 
     void DenoiseImage(Mat &image_cv) {

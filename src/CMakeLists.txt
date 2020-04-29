@@ -20,7 +20,7 @@ ci_make_library(
         SOURCES      ${SOURCE_LIST}
         INCLUDES     "${FinalProject_SOURCE_DIR}/include"
         LIBRARIES    eigen opencv
-        BLOCKS
+        BLOCKS       Cinder-ImGui
 )
 
 

@@ -2,6 +2,7 @@
 
 #include "my_app.h"
 
+#include "mylibrary/compression.h"
 #include <cinder/app/App.h>
 #include <cinder/Font.h>
 #include <cinder/Text.h>
@@ -42,6 +43,8 @@ namespace myapp {
     float slide = 0.f;
     string file;
     bool display_image = false;
+    bool rewrite_image = false;
+    bool make_new_file = false;
     MyApp::MyApp() {
 
         ImGui::initialize();
@@ -77,10 +80,14 @@ namespace myapp {
 
             }
             if (file.size() != 0) {
-                mylibrary::SharpenImage(file, slide);
+                if (!mylibrary::IsValidFile(file)) {
+                    ui::Text("Invalid File");
+                } else {
+                    mylibrary::SharpenImage(file, slide, rewrite_image, make_new_file);
+                }
             }
-
-
+            rewrite_image = ui::Button("Rewrite File");
+            make_new_file = ui::Button("Make New File");
         }
 
 

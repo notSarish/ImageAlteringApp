@@ -7,9 +7,8 @@
 #include "opencv2/opencv_modules.hpp"
 #include <mylibrary/model.h>
 
+using namespace mylibrary;
+TEST_CASE("Is Valid File", "[Valid]") {
+  //IsValidFile("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/blurryimage.jpg");
 
-TEST_CASE("Random sanity test", "[random]") {
-  const float random = cinder::randFloat();
-  REQUIRE(0. <= random);
-  REQUIRE(random <= 1.);
 }

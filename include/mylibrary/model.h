@@ -19,9 +19,17 @@ namespace mylibrary {
 using namespace cv;
 using namespace Eigen;
 //using namespace Eigen;
-void SharpenImage(const std::string &kFileName, const double cons);
+bool IsValidFile(const std::string &kFileName);
+
+void SharpenImage(const std::string &kFileName, const double kConstant, const bool kRewriteImage, const bool kMakeNewFile);
 
 void DenoiseImage(Mat &image_cv);
+
+std::string CopyFile(const std::string &kFileName);
+
+void CompressImage(const std::string &kFileName, const double kCompression);
+
+
 
 
 

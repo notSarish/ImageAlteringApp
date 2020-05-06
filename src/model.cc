@@ -3,6 +3,7 @@
 #include <mylibrary/model.h>
 #include <Eigen/Dense>
 #include <fstream>
+#include <iostream>
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/photo/photo.hpp"
@@ -17,7 +18,8 @@ namespace mylibrary {
         return !(kFileName.substr(kFileName.length() - 4) != "jpeg" && kFileName.substr(kFileName.length() - 3) != "jpg"
                  && kFileName.substr(kFileName.length() - 3) != "png");
     }
-    void SharpenImage(const std::string &kFileName, const double cons, const bool rewrite_images, const bool new_file) {
+    void SharpenImage(const std::string &kFileName, const double cons, const bool rewrite_images, const bool new_file,
+            const bool compress_image) {
         Mat image_cv = imread(kFileName, IMREAD_GRAYSCALE);
         Mat original = imread(kFileName, IMREAD_GRAYSCALE);
         DenoiseImage(image_cv);
@@ -28,13 +30,15 @@ namespace mylibrary {
         convertScaleAbs(laplacian, dst);
        // imshow("Laplacian", dst);
         Mat show = original - cons*dst;
-      //  fastNlMeansDenoising(show, show, 3, 7, 21);
+
+        if (compress_image) {
+            CompressImage(show, .5);
+        }
         if (rewrite_images) {
             imwrite(kFileName, show);
         } else if (new_file) {
             imwrite(CopyFile(kFileName), show);
         }
-//        imwrite()
         imshow("Sharpen", show);
     }
 
@@ -57,24 +61,32 @@ namespace mylibrary {
         }
     }
 
-    void CompressImage(const std::string &kFileName, const double kCompression) {
-        Mat image_cv = imread(kFileName, IMREAD_GRAYSCALE);
-        Matrix<int, Dynamic, Dynamic> image_eigen;
+    void CompressImage(Mat &image_cv, const double kCompression) {
+       // Mat image_cv = imread(kFileName, IMREAD_GRAYSCALE);
+        if (kCompression == 1.0) {
+            return;
+        }
+        MatrixXd image_eigen(2,2);
         cv2eigen(image_cv, image_eigen);
-        BDCSVD<MatrixXf> svd(image_eigen, ComputeThinU | Eigen::ComputeThinV);
-        Matrix<double, Dynamic, Dynamic> sigma = svd.singularValues();
-        Matrix<double, Dynamic, Dynamic> U = svd.matrixU();
-        Matrix<double, Dynamic, Dynamic> Vt = svd.matrixV().transpose();
+        BDCSVD<MatrixXd> svd(image_eigen, ComputeThinU | ComputeThinV);
+//        std::cout << svd.singularValues();
+        Eigen::Vector<double, Dynamic> sigma = svd.singularValues().cast<double>();
+        std::cout << sigma;
+        Matrix<double, Dynamic, Dynamic> U = svd.matrixU().cast<double>();
+        Matrix<double, Dynamic, Dynamic> Vt = svd.matrixV().transpose().cast<double>();
         unsigned int i = 0;
-        unsigned int sum = 0;
-        while (sigma[i] != 0) {
+        double sum = 0;
+        while (i < sigma.size()) {
             sum += sigma[i];
             ++i;
         }
 
+        std::cout << sum << std::endl;
+
         //determines low rank
         unsigned int rank = 0;
-        unsigned int temp_sum = 0;
+        double temp_sum = 0;
+
         while (temp_sum <= kCompression * sum) {
             temp_sum += sigma[rank];
             ++rank;
@@ -84,8 +96,8 @@ namespace mylibrary {
             compressed_image += sigma[index] * U(all, index) * Vt(index, all);
         }
 
-
-
+        eigen2cv(compressed_image, image_cv);
+        imshow("Compression", image_cv);
     }
 
 }  // namespace mylibrary

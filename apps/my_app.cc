@@ -45,11 +45,12 @@ namespace myapp {
     bool display_image = false;
     bool rewrite_image = false;
     bool make_new_file = false;
+    bool use_compression = false;
     MyApp::MyApp() {
 
         ImGui::initialize();
-
-
+        Mat image_cv = imread("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/apple.jpeg", IMREAD_GRAYSCALE);
+        mylibrary::CompressImage(image_cv, .5);
 
     }
 
@@ -61,7 +62,7 @@ namespace myapp {
         cinder::gl::clear( Color( 0, 0, 0 ) );
        // ui::ScopedWindow window;
         //ui::ScopedWindow window("Grayscale Image Sharpening", ImGuiWindowFlags_None);
-        if (ImGui::Button("Grayscale Image")) {
+        /*if (ImGui::Button("Grayscale Image")) {
             display_image = !display_image;
         }
         if (display_image) {
@@ -83,13 +84,16 @@ namespace myapp {
                 if (!mylibrary::IsValidFile(file)) {
                     ui::Text("Invalid File");
                 } else {
-                    mylibrary::SharpenImage(file, slide, rewrite_image, make_new_file);
+                    mylibrary::SharpenImage(file, slide, rewrite_image, make_new_file, use_compression);
                 }
             }
+            //ui::Check
+            ui::Checkbox("Compress Image", &use_compression);
             rewrite_image = ui::Button("Rewrite File");
             make_new_file = ui::Button("Make New File");
-        }
 
+        }
+*/
 
         //ImGui::SliderInt("slide", &slide, 0, 100);
     }

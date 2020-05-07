@@ -73,11 +73,13 @@ namespace mylibrary {
         }
     }
 
-    void CompressImage(Mat &image_cv, const double kCompression) {
-
+    bool CompressImage(Mat &image_cv, const double kCompression) {
 
         if (kCompression == 1.0) {
-            return;
+            imshow("Compression", image_cv);
+            return true;
+        } else if (kCompression < 0 || kCompression > 1) {
+            return false;
         }
 
         MatrixXf image_eigen;
@@ -127,9 +129,9 @@ namespace mylibrary {
        Mat final;
 
        convertScaleAbs(image_cv, final);
-       std::cout << "HUH" << std::endl;
        std::cout << image_cv << std::endl;
        imshow("Compression", final);
+       return true;
     }
     void computeDiagonalSigma(Vector <double, Dynamic> &sigma, MatrixXd &diagonal_sigma) {
         diagonal_sigma.setZero();
@@ -138,5 +140,6 @@ namespace mylibrary {
         }
 
     }
+
 
 }  // namespace mylibrary

@@ -51,13 +51,13 @@ namespace myapp {
     MyApp::MyApp() {
 
         ImGui::initialize();
-        Mat image_cv = imread("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/test1.jpeg", IMREAD_GRAYSCALE);
-        Eigen::MatrixXf image_eigen;
-
-
-        cv2eigen(image_cv, image_eigen);
-
-        mylibrary::CompressImage(image_cv, .5);
+//        Mat image_cv = imread("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/test1.jpeg", IMREAD_GRAYSCALE);
+//        Eigen::MatrixXf image_eigen;
+//
+//
+//        cv2eigen(image_cv, image_eigen);
+//
+//        mylibrary::CompressImage(image_cv, .5);
 
     }
 

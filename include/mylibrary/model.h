@@ -28,7 +28,7 @@ void DenoiseImage(Mat &image_cv);
 
 std::string CopyFile(const std::string &kFileName);
 
-void CompressImage(Mat &image_cv, const double kCompression);
+bool CompressImage(Mat &image_cv, const double kCompression);
 
 
 

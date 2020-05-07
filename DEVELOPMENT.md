@@ -16,3 +16,5 @@ In week 2, I finished creating a model for sharpening grayscale images using a l
 05/06/20: After writing the randomized SVD approximation algorithm, I found slight improvements in run time, but it was still pretty slow. I plan on simply using the Arpack++ library as even after compiling there is a huge loss in quality in the image.
 
 05/06/20: After debugging the randomized SVD approximation, I found out that while fairly accurate, it lacked the accuracy to create a truly compressed image as the image just ended up with a lot of noise. Decided to just use the Eigen SVD on a smaller pixel image as the run times was a lot quicker for smaller images. 
+
+5/06/20: Made changes to Readme and finished tests

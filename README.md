@@ -8,13 +8,13 @@ layout.
 
 **Author**: Sarish Deotale - [`sarishd2@illinois.edu`](mailto:sarishd2@illinois.edu)
 
-# Image Altering App
+#Image Altering App
 
 ##Image Compression
 
 For my image compression algorithm, I used a lossy low rank SVD approximation to compress the image. This is done by using the highest rank singular values and their corresponding left and right singular vectors. My algorithm takes in how much the user wants to compress the image in terms of a percent of the original image.
 
-![alt text](https://d3i71xaburhd42.cloudfront.net/6d3c3acb5e020bb13eb64194b4456e7550197ed8/5-Figure3-1.png)
+![](https://d3i71xaburhd42.cloudfront.net/6d3c3acb5e020bb13eb64194b4456e7550197ed8/5-Figure3-1.png)
 
 This image shows how using greater ranks results in a less compressed but better image. My algorithm works in very similar way but is more friendly to newer user by allowing them to choose a percentage of the image.
 ###Issues:
@@ -34,8 +34,8 @@ to compile code as it makes Eigen run quicker. Another solution is using OpenMP 
 
 My image sharpening algorithm is based on common edge detection techniques through the Laplacian filter. First, I reduce the noise of the image through gaussian blurring, and then I use the Laplacian filter to give me a matrix that highlights the edges of an image. Then, I subtract this new matrix from the original to essentially sharpen the image. However some problems arise with how Laplacian filter and how potent it is. To workaround this, I create a slider that would allow the user to change how sharp they want the image in real time.
 
-![unsharp](file:///Users/sarishdeotale/Desktop/Screen%20Shot%202020-05-06%20at%2011.53.42%20PM.png)
-![sharp](file:///Users/sarishdeotale/Desktop/Screen%20Shot%202020-05-06%20at%2011.53.30%20PM.png)
+![](file:///Users/sarishdeotale/Desktop/Screen%20Shot%202020-05-06%20at%2011.53.42%20PM.png)
+![](file:///Users/sarishdeotale/Desktop/Screen%20Shot%202020-05-06%20at%2011.53.30%20PM.png)
 
 To make this even more user friendly I give the user the option to rewrite the file or make a new one with a similar name.
 

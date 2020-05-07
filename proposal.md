@@ -1,0 +1,13 @@
+# Sharpening Images Using A Laplacian Filter
+
+Author: Sarish Deotale
+
+  The idea I have was inspired from a lecture in CS357 where we talked about singular value decomposition and its application to fields such as image processing. This led me to the idea of applying SVDs to unblur images. Along with this, I am interested in the idea of using multithreading image processing, but I do not know enough about multithreading and concurrency to commit to this idea, however. 
+  
+  However, upon researching this idea, I found out that I would require previous knowledge of the blur kernel or the point spread function of the image to apply most algorithms. There were some blind deconvolution algorithms that approached the problem through a MAP (Maximum a Posteriori) estimation, but I found these approaches to be out of depth in terms of my background knowledge. While researching this topic though, I came across a similar problem that required slightly less background knowledge. This was too sharpen the image using a Laplacian Filter, which is common in many edge detecting algorithms.
+  
+  In futher researching this idea, I found many linear algebra libraries that could be very helpful in my project. Some particularly interesting libraries I found were [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) which supports various matrix decompositions and [Geometric Tools](https://www.geometrictools.com/) which has a collection of sources for image analysis and has access to standard constructs for multithreading programming on cores. I most likely will also be using some image processing libraries such as [opencv](https://github.com/opencv/opencv). Finally, I will also be using the ImGui Cinder Block to help create an easy to use interface for the user.
+  
+  My timeline for this project is to completely understand the mathematics and begin working on the sharpening model by the first week. By the second week, I plan on completing the model and begin the process of integrating image processing. By the third week, I plan on finishing integrating image processing and maybe apply multithreading, if I finish enough of the project early. I also plan on adding some more features to my app such as image compression using SVD.
+  
+  I think this project is definitely doable and given my background and the access to libraries, I think I will be able to complete almost all of the project. I have done some research into this idea, and I have already found quite a few research papers/articles that mention similar ideas. For example, [this presentation](https://bohr.wlu.ca/hfan/cp467/12/notes/cp467_12_lecture6_sharpening.pdf).

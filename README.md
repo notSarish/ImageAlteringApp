@@ -14,7 +14,7 @@ layout.
 
 For my image compression algorithm, I used a lossy low rank SVD approximation to compress the image. This is done by using the highest rank singular values and their corresponding left and right singular vectors. My algorithm takes in how much the user wants to compress the image in terms of a percent of the original image.
 
-![](https://d3i71xaburhd42.cloudfront.net/6d3c3acb5e020bb13eb64194b4456e7550197ed8/5-Figure3-1.png)
+![](assets/5-Figure3-1.png)
 
 This image shows how using greater ranks results in a less compressed but better image. My algorithm works in very similar way but is more friendly to newer user by allowing them to choose a percentage of the image.
 

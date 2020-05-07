@@ -41,23 +41,20 @@ namespace myapp {
     const char kNormalFont[] = "Arial";
     void PrintText(const string &text, const Color &color, const cinder::ivec2 &size,
                    const cinder::vec2 &loc);
-    float slide = 0.f;
-    string file;
-    bool display_image = false;
-    bool compress_image = false;
-    bool rewrite_image = false;
-    bool make_new_file = false;
-    bool use_compression = false;
+//    float slide = 0.f;
+//    string file;
+//    double compression;
+//    bool display_image = false;
+//    bool compress_image = false;
+//    bool rewrite_image = false;
+//    bool make_new_file = false;
+//    bool use_compression = false;
+//    bool exit_image_app = false;
+//    bool exit_compression_app = false;
+//    bool enter_compress = false;
     MyApp::MyApp() {
 
         ImGui::initialize();
-//        Mat image_cv = imread("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/test1.jpeg", IMREAD_GRAYSCALE);
-//        Eigen::MatrixXf image_eigen;
-//
-//
-//        cv2eigen(image_cv, image_eigen);
-//
-//        mylibrary::CompressImage(image_cv, .5);
 
     }
 
@@ -66,45 +63,93 @@ namespace myapp {
     }
 
     void MyApp::update() {
+
         cinder::gl::clear( Color( 0, 0, 0 ) );
-       // ui::ScopedWindow window;
-        //ui::ScopedWindow window("Grayscale Image Sharpening", ImGuiWindowFlags_None);
+
         if (ImGui::Button("Grayscale Image Sharpening")) {
             display_image = !display_image;
         } else if (ImGui::Button("Compress Image")) {
-            compress_image = !compress_image
+            compress_image = !compress_image;
         }
+
         if (display_image) {
+
             ui::ScopedWindow window("Grayscale Image Sharpening", ImGuiWindowFlags_None);
             ui::Text("Select How Sharp You Want Your Image");
             ui::SliderFloat("slide", &slide, 0.f, 2.f);
+
             string file_name = "";
             if(ui::InputText("Enter your image", &file_name)) {
-               // if valid file
+
                if (file_name.size() != 0) {
                    file = file_name;
-
-                  // std::cout<< file << std::endl;
                }
-              //  std::cout<< "new"  << file << std::endl;
 
             }
+
             if (file.size() != 0) {
+
                 if (!mylibrary::IsValidFile(file)) {
                     ui::Text("Invalid File");
                 } else {
-                    mylibrary::SharpenImage(file, slide, rewrite_image, make_new_file, use_compression);
+                    mylibrary::SharpenImage(file, slide, rewrite_image, make_new_file);
                 }
+
             }
-            //ui::Check
-          //  ui::Checkbox("Compress Image", &use_compression);
+            if (exit_image_app) {
+
+                display_image = false;
+                exit_image_app = false;
+
+            }
+
             rewrite_image = ui::Button("Rewrite File");
             make_new_file = ui::Button("Make New File");
+            exit_image_app = ui::Button("Exit");
 
+        } else if (compress_image) {
+
+            ui::ScopedWindow window("Compress Image", ImGuiWindowFlags_None);
+            ui::Text("Choose How Compressed You Want Your Image (as a double between 0 and 1)");
+
+
+            ui::InputDouble("Enter Compression", &compression);
+
+            ui::InputText("Enter Your Image", &file);
+
+
+            if (enter_compress || rewrite_image || make_new_file) {
+                if (!mylibrary::IsValidFile(file)) {
+                    invalid_file = true;
+                    //ui::Text("Invalid File");
+                } else if (!mylibrary::CompressImage(file, compression, rewrite_image, make_new_file)) {
+                    invalid_compression = true;
+                    // ui::Text("Invalid Compression Value");
+                } else {
+                    invalid_file = false;
+                    invalid_compression = false;
+                }
+
+            }
+
+            if (invalid_file) {
+                ui::Text("Invalid File");
+            } else if (invalid_compression) {
+                ui::Text("Invalid Compression Value");
+            }
+
+            if (exit_compression_app) {
+                compress_image = false;
+                exit_compression_app = false;
+            }
+
+            enter_compress = ui::Button("Enter");
+            rewrite_image = ui::Button("Rewrite File");
+            make_new_file = ui::Button("Make New File");
+            exit_compression_app = ui::Button("Exit");
+            
         }
 
-
-        //ImGui::SliderInt("slide", &slide, 0, 100);
     }
 
     void MyApp::draw() {

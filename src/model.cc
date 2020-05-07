@@ -22,8 +22,7 @@ namespace mylibrary {
                  && kFileName.substr(kFileName.length() - 3) != "png");
     }
 
-    void SharpenImage(const std::string &kFileName, const double cons, const bool rewrite_images, const bool new_file,
-            const bool compress_image) {
+    void SharpenImage(const std::string &kFileName, const double cons, const bool rewrite_images, const bool new_file) {
 
         Mat image_cv = imread(kFileName, IMREAD_GRAYSCALE);
 
@@ -41,9 +40,7 @@ namespace mylibrary {
 
         Mat show = original - cons*dst;
 
-        if (compress_image) {
-            CompressImage(show, .5);
-        }
+
 
         if (rewrite_images) {
             imwrite(kFileName, show);
@@ -73,8 +70,9 @@ namespace mylibrary {
         }
     }
 
-    bool CompressImage(Mat &image_cv, const double kCompression) {
+    bool CompressImage(const std::string &kFileName, const double kCompression, const bool kRewriteImage, const bool kMakeNewFile) {
 
+        Mat image_cv = imread(kFileName, IMREAD_GRAYSCALE);
         if (kCompression == 1.0) {
             imshow("Compression", image_cv);
             return true;
@@ -82,24 +80,25 @@ namespace mylibrary {
             return false;
         }
 
+
         MatrixXf image_eigen;
         cv2eigen(image_cv, image_eigen);
 
-
-        //JacobiSVD<MatrixXf> svd;
+        //take svd of matrix
         BDCSVD<MatrixXf> svd(image_eigen, Eigen::ComputeFullU | Eigen::ComputeFullV);
-        //randomizedSVD::getSVD(image_eigen, svd);
 
+        //separating svd into its components
         Eigen::Vector<double, Dynamic> sigma = svd.singularValues().cast<double>();
+
         MatrixXd diagonal_sigma(sigma.rows(), sigma.rows());
+
+        //this function essentially creates a diagonal matrix from the singular values
         computeDiagonalSigma(sigma, diagonal_sigma);
 
-        std::cout << std::to_string(diagonal_sigma.rows()) + "x" + std::to_string(diagonal_sigma.cols()) << std::endl;
-     //   std::cout << diagonal_sigma << std::endl;
         Matrix<double, Dynamic, Dynamic> U = svd.matrixU().cast<double>();
-       // std::cout << std::to_string(U.rows()) + "x" + std::to_string(U.cols()) << std::endl;
         Matrix<double, Dynamic, Dynamic> Vt = svd.matrixV().transpose().cast<double>();
-       // std::cout << std::to_string(Vt.rows()) + "x" + std::to_string(Vt.cols()) << std::endl;
+
+        //sums all the singular values
         unsigned int i = 0;
         double sum = 0;
         while (i < sigma.size()) {
@@ -107,9 +106,8 @@ namespace mylibrary {
             ++i;
         }
 
-        std::cout << sum << std::endl;
 
-        //determines low rank
+        //determines low rank by finding which singular values still results in temp_sum < kCompression * sum
         unsigned int rank = 0;
         double temp_sum = 0;
 
@@ -117,19 +115,26 @@ namespace mylibrary {
             temp_sum += sigma[rank];
             ++rank;
         }
+
+        //creates low rank approximation by multiplying sigma[i] * the ith column of U * ith row of Vt
         Matrix<double, Dynamic, Dynamic> compressed_image = sigma[0] * U(all, 0) * Vt(0, all);
         for (int index = 1; index < rank; ++index) {
             compressed_image += sigma[index] * U(all, index) * Vt(index, all);
         }
-       //MatrixXd compressed_image = U * diagonal_sigma * Vt;
-       std::cout << compressed_image << std::endl;
+
+
+        //essentially converts matrix to something opencv can convert to an image
        Matrix<int, Dynamic, Dynamic> int_compressed = compressed_image.cast<int>();
        eigen2cv(int_compressed, image_cv);
-
        Mat final;
-
        convertScaleAbs(image_cv, final);
-       std::cout << image_cv << std::endl;
+
+        if (kRewriteImage) {
+            imwrite(kFileName, final);
+        } else if (kMakeNewFile) {
+            imwrite(CopyFile(kFileName), final);
+        }
+
        imshow("Compression", final);
        return true;
     }

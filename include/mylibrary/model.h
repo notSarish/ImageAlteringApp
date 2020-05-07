@@ -21,14 +21,13 @@ using namespace Eigen;
 //using namespace Eigen;
 bool IsValidFile(const std::string &kFileName);
 
-void SharpenImage(const std::string &kFileName, const double kConstant, const bool kRewriteImage, const bool kMakeNewFile,
-        const bool compress_image);
+void SharpenImage(const std::string &kFileName, const double kConstant, const bool kRewriteImage, const bool kMakeNewFile);
 
 void DenoiseImage(Mat &image_cv);
 
 std::string CopyFile(const std::string &kFileName);
 
-bool CompressImage(Mat &image_cv, const double kCompression);
+bool CompressImage(const std::string &kFileName, const double kCompression, const bool kRewriteImage, const bool kMakeNewFile);
 
 
 

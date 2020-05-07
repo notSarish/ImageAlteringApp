@@ -35,21 +35,21 @@ to compile code as it makes Eigen run quicker. Another solution is using OpenMP 
 
 My image sharpening algorithm is based on common edge detection techniques through the Laplacian filter. First, I reduce the noise of the image through gaussian blurring, and then I use the Laplacian filter to give me a matrix that highlights the edges of an image. Then, I subtract this new matrix from the original to essentially sharpen the image. However some problems arise with how Laplacian filter and how potent it is. To workaround this, I create a slider that would allow the user to change how sharp they want the image in real time.
 
-![](file:///Users/sarishdeotale/Desktop/Screen%20Shot%202020-05-06%20at%2011.53.42%20PM.png)
-![](file:///Users/sarishdeotale/Desktop/Screen%20Shot%202020-05-06%20at%2011.53.30%20PM.png)
+![](assets/im1.png)
+![](assets/im2.png)
 
 To make this even more user friendly I give the user the option to rewrite the file or make a new one with a similar name.
 
 
 
 
-##Dependencies:
+## Dependencies:
 [Cmake](https://cmake.org/)  
 [Eigen](https://gitlab.com/libeigen/eigen.git)  
 [Cinder-ImGui](https://github.com/simongeilfus/Cinder-ImGui)  
 [OpenCV](https://github.com/opencv/opencv/tree/4.3.0)  
 
-####MacOS
+#### MacOS
 ```
 cd opencv
 mkdir build
@@ -71,6 +71,6 @@ target_link_libraries(opencv INTERFACE ${OpenCV_LIBS})
 ```
 for your CMakeLists.txt file
 
-##Future Plans:
+## Future Plans:
 I plan on working more on writing a more efficient algorithm to computed an approximate SVD. I also plan on incorporating multithreading processing into my program to make the running time quicker. I am also interested in other applications of linear algebra and images and would love to research more on the topic.
 

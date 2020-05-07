@@ -147,7 +147,7 @@ namespace myapp {
             rewrite_image = ui::Button("Rewrite File");
             make_new_file = ui::Button("Make New File");
             exit_compression_app = ui::Button("Exit");
-            
+
         }
 
     }

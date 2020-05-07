@@ -2,7 +2,6 @@
 
 #include "my_app.h"
 
-#include "mylibrary/compression.h"
 #include <cinder/app/App.h>
 #include <cinder/Font.h>
 #include <cinder/Text.h>
@@ -18,6 +17,7 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "mylibrary/model.h"
+
 #include "opencv2/photo/photo.hpp"
 #include "CinderImGui.h"
 
@@ -25,6 +25,7 @@
 #include <chrono>
 #include <cmath>
 #include <string>
+#include "randomizedSVD.h"
 
 
 namespace myapp {
@@ -50,7 +51,12 @@ namespace myapp {
 
         ImGui::initialize();
         Mat image_cv = imread("/Users/sarishdeotale/Downloads/cinder_0.9.2_mac/my-projects/final-project-notSarish/assets/apple.jpeg", IMREAD_GRAYSCALE);
-        mylibrary::CompressImage(image_cv, .5);
+        Eigen::MatrixXf image_eigen;
+
+
+        cv2eigen(image_cv, image_eigen);
+
+        mylibrary::CompressImage(image_cv, .99);
 
     }
 

@@ -35,6 +35,7 @@ void CompressImage(Mat &image_cv, const double kCompression);
 
 
 
+
 }  // namespace mylibrary
 
 

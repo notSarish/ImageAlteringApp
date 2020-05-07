@@ -10,4 +10,7 @@ In week 2, I finished creating a model for sharpening grayscale images using a l
 
 # Week 3 Progress
 05/01/20: Began and finished image compression algorithm using SVD low rank approximation. Still needs testing to check if accurate
+
 05/03/20: Began testing code, but found that Eigen::BDCSVD took over 6 minutes to calculate SVD of image. Instead decided to work on writing my own randomized SVD algorithm based on [this research article by Facebook Research](https://research.fb.com/blog/2014/09/fast-randomized-svd/). I may however decided to just use the ARPACK++ library if this implementation takes too long. I also decided against generalizing my model for colored images as I could not find much research online other than models that were based on chrome, hue, and intensity of the image rather than RGB values.
+
+05/06/20: After writing the randomized SVD approximation algorithm, I found slight improvements in run time, but it was still pretty slow. I plan on simply using the Arpack++ library as even after compiling there is a huge loss in quality in the image.

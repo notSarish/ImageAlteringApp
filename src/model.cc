@@ -10,7 +10,7 @@
 #include "randomizedSVD.h"
 
 namespace mylibrary {
-
+    void computeDiagonalSigma(Vector <double, Dynamic> &sigma, MatrixXd &diagonal_sigma);
 
 
     bool IsValidFile(const std::string &kFileName) {
@@ -84,14 +84,20 @@ namespace mylibrary {
         cv2eigen(image_cv, image_eigen);
 
 
-        JacobiSVD<MatrixXf> svd;
-
-        randomizedSVD::getSVD(image_eigen, svd);
+        //JacobiSVD<MatrixXf> svd;
+        BDCSVD<MatrixXf> svd(image_eigen, Eigen::ComputeFullU | Eigen::ComputeFullV);
+        //randomizedSVD::getSVD(image_eigen, svd);
 
         Eigen::Vector<double, Dynamic> sigma = svd.singularValues().cast<double>();
-        std::cout << sigma;
+        MatrixXd diagonal_sigma(sigma.rows(), sigma.rows());
+        computeDiagonalSigma(sigma, diagonal_sigma);
+
+        std::cout << std::to_string(diagonal_sigma.rows()) + "x" + std::to_string(diagonal_sigma.cols()) << std::endl;
+     //   std::cout << diagonal_sigma << std::endl;
         Matrix<double, Dynamic, Dynamic> U = svd.matrixU().cast<double>();
+       // std::cout << std::to_string(U.rows()) + "x" + std::to_string(U.cols()) << std::endl;
         Matrix<double, Dynamic, Dynamic> Vt = svd.matrixV().transpose().cast<double>();
+       // std::cout << std::to_string(Vt.rows()) + "x" + std::to_string(Vt.cols()) << std::endl;
         unsigned int i = 0;
         double sum = 0;
         while (i < sigma.size()) {
@@ -113,11 +119,24 @@ namespace mylibrary {
         for (int index = 1; index < rank; ++index) {
             compressed_image += sigma[index] * U(all, index) * Vt(index, all);
         }
-        MatrixXf image_svd = svd.matrixU() * svd.singularValues().diagonal() * svd.matrixV().transpose();
-        eigen2cv(image_svd, image_cv);
+       //MatrixXd compressed_image = U * diagonal_sigma * Vt;
+       std::cout << compressed_image << std::endl;
+       Matrix<int, Dynamic, Dynamic> int_compressed = compressed_image.cast<int>();
+       eigen2cv(int_compressed, image_cv);
 
-        imshow("Compression", image_cv);
+       Mat final;
+
+       convertScaleAbs(image_cv, final);
+       std::cout << "HUH" << std::endl;
+       std::cout << image_cv << std::endl;
+       imshow("Compression", final);
     }
+    void computeDiagonalSigma(Vector <double, Dynamic> &sigma, MatrixXd &diagonal_sigma) {
+        diagonal_sigma.setZero();
+        for (unsigned int i = 0; i < sigma.rows(); ++i) {
+            diagonal_sigma(i,i) = sigma(i);
+        }
 
+    }
 
 }  // namespace mylibrary

@@ -1,5 +1,5 @@
 //
-// Created by Sarish Deotale on 5/6/20.
+// Code from Google's own REDSVD algorithm
 //
 
 #include <iostream>
